@@ -114,3 +114,51 @@ describe('PATCH /:loanId/borrowers/:pairId', () => {
     expect(response.text).to.deep.equal('Borrower not found');
   });
 });
+
+describe('DELETE /:loanId/borrowers/:pairId', () => {
+  it('should delete a borrower based on loanId and pairId', async () => {
+    const loanId = 1;
+    const pairId = 1;
+    const response = await request(app).delete(`/loans/${loanId}/borrowers/${pairId}`);
+
+    expect(response.status).to.equal(200);
+    expect(response.text).to.deep.equal('Borrower deleted');
+
+    const updatedLoan = loans.find((loan) => loan.loanId === loanId);
+    const deletedBorrower = updatedLoan.borrowers.find((borrower) => borrower.pairId === pairId);
+
+    expect(deletedBorrower).to.be.undefined;
+  });
+
+  it('should return error status code when loanId is not found', async () => {
+    const loanId = 10;
+    const pairId = 1;
+    const response = await request(app).delete(`/loans/${loanId}/borrowers/${pairId}`);
+
+    expect(response.status).to.equal(404);
+    expect(response.text).to.deep.equal('Loan not found');
+  });
+
+  it('should return error status code when pairId is not found', async () => {
+    const loanId = 1;
+    const pairId = 10;
+    const response = await request(app).delete(`/loans/${loanId}/borrowers/${pairId}`);
+
+    expect(response.status).to.equal(404);
+    expect(response.text).to.deep.equal('Borrower not found');
+  });
+});
+
+describe('DELETE /:loanId', () => {
+  it("should delete loan object and return 200 status code", async () => {
+    const res = await request(app).delete("/loans/1");
+    expect(res.status).to.equal(200);
+    expect(loans).to.not.deep.include({loanId: 1});
+  });
+
+  it('should return error status code if loan object does not exist', async () => {
+    const deleteResponse = await request(app).delete('/loans/99');
+    expect(deleteResponse.status).to.equal(404);
+    expect(deleteResponse.text).to.equal('Loan not found');
+  });
+});
