@@ -3,8 +3,16 @@ const app = express();
 const port = 3000;
 const isLocal = true;
 
+const sampleRouter = require('./routes/samples/index');
+
+
+app.use(express.json());
+
+app.use('/loans', sampleRouter);
+
+
 app.get('/', (req, res) => {
-    res.json({
+  res.json({
 		message: "✨ 👋🌏 ✨",
 		stage: process.env.NODE_ENV,
 	});
