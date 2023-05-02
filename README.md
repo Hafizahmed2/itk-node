@@ -4,6 +4,9 @@ This project is for testing applicants skills with different technologies used a
 
 
 ## Setup
+```
+cd MockAPILab
+```
 
 ```
 npm install
