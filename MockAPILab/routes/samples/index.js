@@ -58,4 +58,23 @@ router.patch("/:loanId/borrowers/:pairId", (req, res) => {
   }
 });
 
+router.delete("/:loanId/borrowers/:pairId", (req, res) => {
+  const loanId = parseInt(req.params.loanId);
+  const pairId = parseInt(req.params.pairId);
+  const loan = loans.find((l) => l.loanId === loanId);
+  if (loan) {
+    const borrowerIndex = loan.borrowers.findIndex((b) => b.pairId === pairId);
+    if (borrowerIndex !== -1) {
+      loan.borrowers.splice(borrowerIndex, 1);
+      res.status(200).send("Borrower deleted");
+    } else {
+      res.status(404).send("Borrower not found");
+    }
+  } else {
+    res.status(404).send("Loan not found");
+  }
+});
+
+
+
 module.exports = router;
