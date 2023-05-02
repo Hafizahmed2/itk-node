@@ -2,24 +2,25 @@ const express = require('express');
 const router = express.Router();
 const { loans, loanSchema } = require('./data.js');
 
+function isValidLoan(loan) {
+  const requiredProps = ["loanId", "borrowers"];
+  const requiredBorrowerProps = ["pairId", "firstName", "lastName", "phone"];
+
+  return (
+    typeof loan === "object" &&
+    loan !== null &&
+    requiredProps.every((prop) => prop in loan) &&
+    Array.isArray(loan.borrowers) &&
+    loan.borrowers.every((borrower) =>
+      requiredBorrowerProps.every((prop) => prop in borrower)
+    )
+  );
+}
+
 
 router.get("/", (req, res) => {
   res.json(loans);
 });
-
-function isValidLoan(loan) {
-  return (
-    typeof loan === "object" &&
-    loan !== null &&
-    Object.keys(loan).every((key) => key in loanSchema) &&
-    loan.borrowers.every(
-      (borrower) =>
-        typeof borrower === "object" &&
-        borrower !== null &&
-        Object.keys(borrower).every((key) => key in loanSchema.borrowers[0])
-    )
-  );
-}
 
 router.get("/:loanId", (req, res) => {
   const loanId = parseInt(req.params.loanId);
@@ -40,6 +41,7 @@ router.post("/", (req, res) => {
     res.status(400).send("Invalid loan data");
   }
 });
+
 
 router.patch("/:loanId/borrowers/:pairId", (req, res) => {
   const loanId = parseInt(req.params.loanId);
