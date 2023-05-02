@@ -10,7 +10,7 @@ export default function App() {
 	const [openForm, setOpenForm] = React.useState(false);
 	const handleOnClick = (page) => {
 		console.log('open');
-		if(!openForm) { 
+		if(!openForm) {
 			setOpenForm(true)
 		} else {
 			setOpenForm(false)
@@ -18,13 +18,13 @@ export default function App() {
 	};
   return (
     <Container maxWidth="sm">
-	<AccountMenu onClick={handleOnClick} />
-	{openForm && <Basicorm />}
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          React Skills test
-        </Typography>
-      </Box>
+			<AccountMenu onClick={handleOnClick} />
+			{openForm && <BasicForm />}
+			<Box sx={{ my: 4 }}>
+				<Typography variant="h4" component="h1" gutterBottom>
+					React Skills test
+				</Typography>
+			</Box>
     </Container>
   );
 }
