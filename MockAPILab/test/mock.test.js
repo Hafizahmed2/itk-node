@@ -16,3 +16,18 @@ describe('GET /', () => {
     expect(response.body).to.deep.equal(loans);
   });
 });
+
+describe('GET /:loanId', () => {
+  it('responds with the loan matching the loanId', async () => {
+    const response = await request(app).get('/loans/1');
+    expect(response.status).to.equal(200);
+    expect(response.body).to.deep.equal(loans[0]);
+  });
+
+  it('returns error if loanId does not exist', async () => {
+    const response = await request(app).get('/loans/999');
+    expect(response.status).to.equal(404);
+    expect(response.text).to.equal('Loan not found');
+  });
+});
+
