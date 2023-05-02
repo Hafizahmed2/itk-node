@@ -75,6 +75,16 @@ router.delete("/:loanId/borrowers/:pairId", (req, res) => {
   }
 });
 
+router.delete("/:loanId", (req, res) => {
+  const loanId = parseInt(req.params.loanId);
+  const loanIndex = loans.findIndex((l) => l.loanId === loanId);
+  if (loanIndex !== -1) {
+    loans.splice(loanIndex, 1);
+    res.status(200).send("Loan deleted");
+  } else {
+    res.status(404).send("Loan not found");
+  }
+});
 
 
 module.exports = router;
