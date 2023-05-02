@@ -3,8 +3,24 @@
 This project is for testing applicants skills with different technologies used at LTK
 
 
+## Setup
+
 ```
-Instructions
+npm install
+```
+
+```
+npm start
+```
+
+```
+npm test
+```
+
+
+## Instructions
+
+```
 step 2.) Fix any errors that prevent the project from being built and run. Fix any Encompass problems in the code that may cause issues.
 
 step 3.) Using the loan object schema below, and a data storage method of your choosing, create an API with basic CRUD operations
